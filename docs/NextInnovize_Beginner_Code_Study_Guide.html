@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NextInnovize - Beginner Code Study Guide</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#172033;line-height:1.65}
+header{padding:50px 7%;color:white;background:linear-gradient(135deg,#172554,#4f46e5,#9333ea)}
+header h1{font-size:clamp(32px,5vw,58px);margin:0 0 10px}header p{max-width:950px;font-size:18px}
+.layout{max-width:1450px;margin:auto;display:grid;grid-template-columns:260px 1fr}
+aside{background:white;padding:20px;position:sticky;top:0;height:100vh;overflow:auto;border-right:1px solid #ddd}
+aside a{display:block;padding:6px;color:#475569;text-decoration:none}aside a:hover{color:#7c3aed}
+main{padding:30px 5%}section{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:27px;margin-bottom:24px;box-shadow:0 7px 24px #1e293b0c}
+h2{color:#312e81;margin-top:0}h3{color:#6d28d9}pre{background:#111827;color:#e5e7eb;padding:18px;border-radius:10px;overflow:auto;font-size:13px}
+code{font-family:Consolas,monospace}.note{padding:14px 17px;border-left:5px solid #6366f1;background:#eef2ff;border-radius:8px;margin:15px 0}
+.ok{border-color:#059669;background:#ecfdf5}.warn{border-color:#d97706;background:#fffbeb}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:13px}.card{padding:16px;border:1px solid #e2e8f0;border-radius:11px;background:#fafbff}.card b{display:block;color:#6d28d9}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.node{background:#eef2ff;border:1px solid #c7d2fe;padding:8px 12px;border-radius:9px;font-weight:bold}.arrow{color:#7c3aed}
+table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid #e2e8f0;text-align:left;vertical-align:top}th{background:#eef2ff}
+.qa{padding:13px;margin:10px 0;background:#f8fafc;border-radius:8px}.qa b{color:#4f46e5}
+footer{text-align:center;padding:30px;color:#64748b}
+@media(max-width:850px){.layout{display:block}aside{position:relative;height:auto;border-right:0;border-bottom:1px solid #ddd}main{padding:20px 4%}}
+</style>
+</head>
+<body>
+<header>
+<h1>NextInnovize Project</h1>
+<h2 style="color:white">Beginner Code + Project Study Guide</h2>
+<p>Learn the actual project step-by-step: HTML → CSS → JavaScript → REST API → Spring Boot → Controller → Service → Repository → Google Cloud → GET/POST → JSON → webpage display.</p>
+</header>
+
+<div class="layout">
+<aside>
+<h3>📚 Contents</h3>
+<a href="#start">1. Start Here</a><a href="#basics">2. Basic Concepts</a><a href="#folders">3. Folder Structure</a>
+<a href="#html">4. HTML</a><a href="#css">5. CSS</a><a href="#js">6. JavaScript</a>
+<a href="#post">7. POST Code</a><a href="#pom">8. pom.xml</a><a href="#model">9. Model</a>
+<a href="#controller">10. Controller</a><a href="#service">11. Service</a><a href="#repo">12. Repository</a>
+<a href="#save">13. Save Data</a><a href="#fetch">14. Fetch Data</a><a href="#json">15. JSON</a>
+<a href="#cloud">16. Google Cloud</a><a href="#flow">17. Full Flow</a><a href="#debug">18. Debugging</a>
+<a href="#errors">19. Errors</a><a href="#terms">20. Terms</a><a href="#next">21. Next Learning</a>
+</aside>
+
+<main>
+<section id="start">
+<h2>1. 🟢 Start Here — What Are We Building?</h2>
+<p>The project contains an enquiry form. A customer enters name, email, phone, company, service and message. JavaScript sends that data to a Spring Boot backend. The backend stores it in Google Cloud. A separate enquiries page calls the GET API and displays the saved records.</p>
+<div class="flow"><span class="node">Customer</span><span class="arrow">→</span><span class="node">HTML</span><span class="arrow">→</span><span class="node">JavaScript</span><span class="arrow">→</span><span class="node">Spring Boot API</span><span class="arrow">→</span><span class="node">Google Cloud</span></div>
+<div class="note ok"><b>Core idea:</b> The browser does not directly save the enquiry to Google Cloud. The backend is responsible for database communication.</div>
+</section>
+
+<section id="basics">
+<h2>2. 🧠 Basic Concepts</h2>
+<div class="grid">
+<div class="card"><b>Frontend</b>What the user sees: HTML, CSS and JavaScript.</div>
+<div class="card"><b>Backend</b>The server-side Java/Spring Boot application.</div>
+<div class="card"><b>API</b>A defined way for applications to communicate.</div>
+<div class="card"><b>Database</b>Persistent storage for application data.</div>
+<div class="card"><b>HTTP</b>Protocol used by browsers and APIs.</div>
+<div class="card"><b>JSON</b>Common format for transferring structured data.</div>
+</div>
+<table><tr><th>HTTP method</th><th>Meaning</th><th>Our project</th></tr><tr><td>POST</td><td>Send data</td><td>Save an enquiry</td></tr><tr><td>GET</td><td>Ask for data</td><td>Fetch enquiries</td></tr></table>
+<p><b>localhost</b> means your own computer. Our Spring Boot server uses port <code>8080</code>.</p>
+</section>
+
+<section id="folders">
+<h2>3. 📁 Project Folder Structure</h2>
+<pre><code>NextInnovize-clone/
+├── frontend/
+│   ├── index.html
+│   ├── contact.html
+│   ├── enquiries.html
+│   ├── css/
+│   │   ├── style.css
+│   │   ├── navbar.css
+│   │   ├── hero.css
+│   │   ├── contact.css
+│   │   └── enquiries.css
+│   └── js/
+│       ├── app.js
+│       └── enquiries.js
+└── backend/
+    ├── pom.xml
+    └── src/main/
+        ├── java/com/nextinnovize/backend/
+        │   ├── BackendApplication.java
+        │   ├── model/Enquiry.java
+        │   ├── controller/EnquiryController.java
+        │   ├── service/EnquiryService.java
+        │   └── repository/EnquiryRepository.java
+        └── resources/application.properties</code></pre>
+<table><tr><th>File/folder</th><th>Job</th></tr>
+<tr><td>frontend/</td><td>Browser side.</td></tr><tr><td>css/</td><td>Design.</td></tr><tr><td>js/</td><td>Browser logic/API calls.</td></tr>
+<tr><td>model/</td><td>Data structure.</td></tr><tr><td>controller/</td><td>HTTP/API entry point.</td></tr>
+<tr><td>service/</td><td>Application logic layer.</td></tr><tr><td>repository/</td><td>Database layer.</td></tr><tr><td>pom.xml</td><td>Maven dependencies/build configuration.</td></tr></table>
+</section>
+
+<section id="html">
+<h2>4. 🧱 HTML — Page Structure</h2>
+<h3>enquiries.html</h3>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Customer Enquiries&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Customer Enquiries&lt;/h1&gt;
+  &lt;div id="enquiries-container"&gt;Loading enquiries...&lt;/div&gt;
+  &lt;script src="/frontend/js/enquiries.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<div class="qa"><b>&lt;!DOCTYPE html&gt;</b> tells the browser this is HTML5.</div>
+<div class="qa"><b>&lt;head&gt;</b> contains page configuration such as title and metadata.</div>
+<div class="qa"><b>&lt;body&gt;</b> contains visible page content.</div>
+<div class="qa"><b>id="enquiries-container"</b> gives JavaScript a unique element to find and fill.</div>
+<div class="qa"><b>&lt;script src="..."&gt;</b> loads JavaScript.</div>
+<div class="note ok">At first the page only says <code>Loading enquiries...</code>. JavaScript later replaces it with data from the backend.</div>
+</section>
+
+<section id="css">
+<h2>5. 🎨 CSS — Why We Split It</h2>
+<table><tr><th>File</th><th>Responsibility</th></tr>
+<tr><td>style.css</td><td>Global/reset styles.</td></tr><tr><td>navbar.css</td><td>Navbar and mobile menu.</td></tr>
+<tr><td>hero.css</td><td>Hero section and visual card.</td></tr><tr><td>contact.css</td><td>Contact/enquiry form.</td></tr>
+<tr><td>enquiries.css</td><td>Enquiry page/cards.</td></tr></table>
+<pre><code>.enquiry-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}</code></pre>
+<p><code>.enquiry-card</code> selects elements with that class. <code>padding</code> is inside space, <code>margin</code> is outside space, <code>border-radius</code> rounds corners.</p>
+</section>
+
+<section id="js">
+<h2>6. 🟨 JavaScript — Browser Logic</h2>
+<h3>Find an element</h3>
+<pre><code>const enquiryForm =
+    document.querySelector(".enquiry-form");</code></pre>
+<p><code>document</code> represents the current HTML page. <code>querySelector()</code> searches for an element using a CSS selector. The result is stored in <code>enquiryForm</code>.</p>
+<h3>Listen for submit</h3>
+<pre><code>enquiryForm.addEventListener("submit", function(event) {
+    // runs when form is submitted
+});</code></pre>
+<p><code>addEventListener()</code> tells JavaScript to wait for an event and run a function when it happens.</p>
+<h3>Stop normal form behavior</h3>
+<pre><code>event.preventDefault();</code></pre>
+<p>Normally a form may reload/navigate. We stop that because JavaScript will send the request using <code>fetch()</code>.</p>
+<h3>Read an input</h3>
+<pre><code>const name =
+    document.querySelector("#name").value;</code></pre>
+<p><code>#name</code> means the element with <code>id="name"</code>. <code>.value</code> gets what the user typed.</p>
+</section>
+
+<section id="post">
+<h2>7. 📤 JavaScript POST — Sending the Form</h2>
+<pre><code>const enquiryData = {
+    name: name,
+    email: email,
+    phone: phone,
+    company: company,
+    service: service,
+    message: message
+};</code></pre>
+<p>This creates a JavaScript object containing the six enquiry values.</p>
+<h3>Convert to JSON</h3>
+<pre><code>JSON.stringify(enquiryData)</code></pre>
+<p>Converts the JavaScript object into JSON text suitable for the HTTP request body.</p>
+<h3>Send to Spring Boot</h3>
+<pre><code>const response = await fetch(
+    "http://localhost:8080/api/enquiry",
+    {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(enquiryData)
+    }
+);</code></pre>
+<table><tr><th>Part</th><th>Meaning</th></tr>
+<tr><td>fetch()</td><td>Makes the network request.</td></tr><tr><td>URL</td><td>Our backend endpoint.</td></tr>
+<tr><td>POST</td><td>Send/save data.</td></tr><tr><td>Content-Type</td><td>Body is JSON.</td></tr><tr><td>body</td><td>Actual enquiry JSON.</td></tr><tr><td>await</td><td>Wait for the response.</td></tr></table>
+<div class="note ok">POST flow: Form → JS object → JSON → fetch POST → Controller.</div>
+</section>
+
+<section id="pom">
+<h2>8. 📦 pom.xml — Maven Configuration</h2>
+<p>Maven manages Java dependencies and builds the backend. <code>pom.xml</code> describes the project and its libraries.</p>
+<h3>Google Cloud dependency management</h3>
+<pre><code>&lt;dependencyManagement&gt;
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;com.google.cloud&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-cloud-gcp-dependencies&lt;/artifactId&gt;
+      &lt;version&gt;8.1.0&lt;/version&gt;
+      &lt;type&gt;pom&lt;/type&gt;
+      &lt;scope&gt;import&lt;/scope&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+&lt;/dependencyManagement&gt;</code></pre>
+<p>This provides compatible versions for Google Cloud libraries. We needed it after Maven reported that the Datastore dependency version was missing.</p>
+<h3>Datastore dependency</h3>
+<pre><code>&lt;dependency&gt;
+  &lt;groupId&gt;com.google.cloud&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-cloud-gcp-starter-data-datastore&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+<p>This adds Google Cloud Datastore integration to the backend.</p>
+</section>
+
+<section id="model">
+<h2>9. 📦 Enquiry.java — Model</h2>
+<pre><code>public class Enquiry {
+    private String name;
+    private String email;
+    private String phone;
+    private String company;
+    private String service;
+    private String message;
+
+    // getters and setters
+}</code></pre>
+<p>The model describes what one enquiry contains. Spring uses it to represent incoming JSON as a Java object.</p>
+<pre><code>JSON
+{
+  "name":"Hariom",
+  "email":"hariom@gmail.com",
+  "phone":"1234567890",
+  "company":"ABC",
+  "service":"Web Development",
+  "message":"Hello"
+}
+
+        ↓
+
+Enquiry Java object</code></pre>
+<p><code>getName()</code> reads the name. <code>setName()</code> sets the name.</p>
+</section>
+
+<section id="controller">
+<h2>10. 🎯 EnquiryController.java — API Entry Point</h2>
+<pre><code>@RestController
+@RequestMapping("/api/enquiry")
+public class EnquiryController {
+
+    private final EnquiryService enquiryService;
+
+    public EnquiryController(EnquiryService enquiryService) {
+        this.enquiryService = enquiryService;
+    }
+
+    @PostMapping
+    public Enquiry save(@RequestBody Enquiry enquiry) {
+        return enquiryService.saveEnquiry(enquiry);
+    }
+
+    @GetMapping
+    public List&lt;Enquiry&gt; getAll() {
+        return enquiryService.getAllEnquiries();
+    }
+}</code></pre>
+<div class="qa"><b>@RestController</b> tells Spring this class contains REST endpoints.</div>
+<div class="qa"><b>@RequestMapping("/api/enquiry")</b> creates the base URL.</div>
+<div class="qa"><b>@PostMapping</b> handles POST requests.</div>
+<div class="qa"><b>@GetMapping</b> handles GET requests.</div>
+<div class="qa"><b>@RequestBody</b> converts JSON request data into an <code>Enquiry</code> Java object.</div>
+<div class="qa"><b>return enquiryService.saveEnquiry(enquiry)</b> sends the work to the service.</div>
+<div class="note ok">Controller's job = receive HTTP request → call service → return response.</div>
+</section>
+
+<section id="service">
+<h2>11. ⚙️ EnquiryService.java — Middle Layer</h2>
+<pre><code>@Service
+public class EnquiryService {
+
+    private final EnquiryRepository enquiryRepository;
+
+    public EnquiryService(EnquiryRepository enquiryRepository) {
+        this.enquiryRepository = enquiryRepository;
+    }
+
+    public Enquiry saveEnquiry(Enquiry enquiry) {
+        return enquiryRepository.save(enquiry);
+    }
+
+    public List&lt;Enquiry&gt; getAllEnquiries() {
+        return enquiryRepository.findAll();
+    }
+}</code></pre>
+<div class="qa"><b>@Service</b> tells Spring this is a service component.</div>
+<div class="qa"><b>private final EnquiryRepository</b> stores a reference to the database layer.</div>
+<div class="qa"><b>Constructor injection</b> lets Spring provide the repository object.</div>
+<div class="qa"><b>saveEnquiry()</b> calls the repository's <code>save()</code>.</div>
+<div class="qa"><b>getAllEnquiries()</b> calls the repository's <code>findAll()</code>.</div>
+<div class="note">The service is the middle layer. It prevents the controller from directly handling database code.</div>
+</section>
+
+<section id="repo">
+<h2>12. 🗄️ EnquiryRepository.java — Database Layer</h2>
+<h3>Imports</h3>
+<pre><code>import com.google.cloud.datastore.Datastore;
+import com.google.cloud.datastore.DatastoreOptions;
+import com.google.cloud.datastore.Entity;
+import com.google.cloud.datastore.Key;
+import com.google.cloud.datastore.KeyFactory;
+import com.google.cloud.datastore.Query;</code></pre>
+<p>These classes let Java create keys, entities and queries and communicate with Google Cloud.</p>
+<h3>Repository class</h3>
+<pre><code>@Repository
+public class EnquiryRepository {
+    private final Datastore datastore;
+}</code></pre>
+<p><code>@Repository</code> marks the class as a persistence/database component. <code>Datastore</code> is the Google Cloud client used by this class.</p>
+<h3>Connect to Google Cloud</h3>
+<pre><code>public EnquiryRepository() {
+    this.datastore =
+        DatastoreOptions
+            .getDefaultInstance()
+            .getService();
+}</code></pre>
+<p><code>getDefaultInstance()</code> obtains the default configuration. <code>getService()</code> obtains the Datastore client. <code>this.datastore</code> stores that client in the class.</p>
+<div class="note ok">The Google client can use your configured Application Default Credentials (ADC) when running locally.</div>
+</section>
+
+<section id="save">
+<h2>13. 💾 Repository Save — Line-by-Line</h2>
+<h3>1. Key factory</h3>
+<pre><code>KeyFactory keyFactory =
+    datastore.newKeyFactory()
+        .setKind("Enquiry");</code></pre>
+<p><code>newKeyFactory()</code> creates a helper for database keys. <code>setKind("Enquiry")</code> says records belong to the <b>Enquiry</b> kind.</p>
+<h3>2. Unique key</h3>
+<pre><code>Key key =
+    datastore.allocateId(keyFactory.newKey());</code></pre>
+<p><code>newKey()</code> creates a key without a final ID. <code>allocateId()</code> asks Datastore to generate a unique ID.</p>
+<h3>3. Entity</h3>
+<pre><code>Entity entity = Entity.newBuilder(key)
+    .set("name", enquiry.getName())
+    .set("email", enquiry.getEmail())
+    .set("phone", enquiry.getPhone())
+    .set("company", enquiry.getCompany())
+    .set("service", enquiry.getService())
+    .set("message", enquiry.getMessage())
+    .build();</code></pre>
+<p>An <code>Entity</code> is the database representation. Each <code>.set()</code> creates a property in the stored record.</p>
+<h3>4. Actual database write</h3>
+<pre><code>datastore.put(entity);</code></pre>
+<p>This is the important line that actually saves the entity to Google Cloud.</p>
+<h3>5. Return</h3>
+<pre><code>return enquiry;</code></pre>
+<p>The repository returns the Java object to the service, then the service returns it to the controller.</p>
+<div class="note ok">Creating an object is not the same as saving it. <code>datastore.put(entity)</code> performs the database write.</div>
+</section>
+
+<section id="fetch">
+<h2>14. 📥 Repository Fetch — Line-by-Line</h2>
+<pre><code>public List&lt;Enquiry&gt; findAll() {
+
+    List&lt;Enquiry&gt; enquiries = new ArrayList&lt;&gt;();
+
+    Query&lt;Entity&gt; query =
+        Query.newEntityQueryBuilder()
+            .setKind("Enquiry")
+            .build();
+
+    for (Entity entity : datastore.run(query)) {
+
+        Enquiry enquiry = new Enquiry();
+
+        enquiry.setName(entity.getString("name"));
+        enquiry.setEmail(entity.getString("email"));
+        enquiry.setPhone(entity.getString("phone"));
+        enquiry.setCompany(entity.getString("company"));
+        enquiry.setService(entity.getString("service"));
+        enquiry.setMessage(entity.getString("message"));
+
+        enquiries.add(enquiry);
+    }
+
+    return enquiries;
+}</code></pre>
+<div class="qa"><b>new ArrayList</b> creates an empty list to hold results.</div>
+<div class="qa"><b>Query.newEntityQueryBuilder()</b> starts building a database query.</div>
+<div class="qa"><b>setKind("Enquiry")</b> asks for Enquiry records.</div>
+<div class="qa"><b>datastore.run(query)</b> executes the query.</div>
+<div class="qa"><b>for (Entity entity ...)</b> processes every returned database entity.</div>
+<div class="qa"><b>entity.getString("name")</b> reads a stored property.</div>
+<div class="qa"><b>enquiry.setName(...)</b> puts that value into a Java Enquiry object.</div>
+<div class="qa"><b>enquiries.add(enquiry)</b> adds the object to the result list.</div>
+<div class="qa"><b>return enquiries</b> returns all fetched records.</div>
+</section>
+
+<section id="json">
+<h2>15. 🧾 JSON — Data Transfer</h2>
+<p>Example JSON sent from the browser:</p>
+<pre><code>{
+  "name": "Hariom",
+  "email": "hariom@gmail.com",
+  "phone": "1234567890",
+  "company": "ABC",
+  "service": "Web Development",
+  "message": "Hello"
+}</code></pre>
+<h3>POST direction</h3>
+<pre><code>JavaScript object
+      ↓ JSON.stringify()
+JSON request
+      ↓
+@RequestBody
+      ↓
+Enquiry Java object</code></pre>
+<h3>GET direction</h3>
+<pre><code>List&lt;Enquiry&gt;
+      ↓
+Spring Boot
+      ↓
+JSON response
+      ↓
+response.json()
+      ↓
+JavaScript array</code></pre>
+<p><b>JSON is the transfer format; it is not the database.</b></p>
+</section>
+
+<section id="cloud">
+<h2>16. ☁️ Google Cloud Setup We Completed</h2>
+<div class="grid">
+<div class="card"><b>Project</b>nextinnovize-backend</div>
+<div class="card"><b>Authentication</b>Application Default Credentials (ADC)</div>
+<div class="card"><b>Database</b>Firestore with Datastore compatibility</div>
+<div class="card"><b>Region</b>asia-south1 (Mumbai)</div>
+<div class="card"><b>Java connection</b>DatastoreOptions.getDefaultInstance().getService()</div>
+</div>
+<p>We also solved the error that said the default database did not exist by creating the compatible database in Google Cloud.</p>
+<div class="note warn">Never put private credential files, passwords or secret keys into source code or Git.</div>
+</section>
+
+<section id="flow">
+<h2>17. 🔥 Complete Project Flow</h2>
+<h3>Saving</h3>
+<pre><code>User
+ ↓
+HTML form
+ ↓
+app.js reads .value
+ ↓
+enquiryData object
+ ↓
+JSON.stringify()
+ ↓
+fetch(POST)
+ ↓
+EnquiryController
+ ↓
+EnquiryService.saveEnquiry()
+ ↓
+EnquiryRepository.save()
+ ↓
+KeyFactory + Key
+ ↓
+Entity
+ ↓
+datastore.put(entity)
+ ↓
+Google Cloud</code></pre>
+<h3>Fetching</h3>
+<pre><code>enquiries.html
+ ↓
+enquiries.js
+ ↓
+fetch(GET)
+ ↓
+EnquiryController
+ ↓
+EnquiryService.getAllEnquiries()
+ ↓
+EnquiryRepository.findAll()
+ ↓
+Query
+ ↓
+datastore.run(query)
+ ↓
+Entity objects
+ ↓
+Enquiry objects
+ ↓
+List&lt;Enquiry&gt;
+ ↓
+JSON response
+ ↓
+response.json()
+ ↓
+JavaScript array
+ ↓
+createElement()
+ ↓
+appendChild()
+ ↓
+Enquiry cards on webpage</code></pre>
+<div class="note ok">This is the main architecture you should understand before learning more features.</div>
+</section>
+
+<section id="debug">
+<h2>18. 🐞 Eclipse Debugging</h2>
+<p>Put breakpoints in your own project files instead of immediately stepping into framework/library code.</p>
+<table><tr><th>Breakpoint</th><th>What you learn</th></tr>
+<tr><td>Controller POST</td><td>Did the request reach Spring Boot?</td></tr>
+<tr><td>Service saveEnquiry()</td><td>Did Controller call Service?</td></tr>
+<tr><td>Repository save()</td><td>Did Service call Repository?</td></tr>
+<tr><td>datastore.put(entity)</td><td>What entity is about to be stored?</td></tr>
+<tr><td>Controller GET</td><td>Did the GET request reach backend?</td></tr>
+<tr><td>Repository findAll()</td><td>What query/results are returned?</td></tr></table>
+<div class="note warn"><b>Step Over</b> executes the current line without entering the called method. <b>Step Into</b> enters the called method and can take you into Spring, Java, gRPC or Google libraries. For learning your own project, use breakpoints and Step Over first.</div>
+</section>
+
+<section id="errors">
+<h2>19. 🧯 Errors We Solved</h2>
+<table><tr><th>Error</th><th>Meaning</th></tr>
+<tr><td>404 Not Found</td><td>Wrong endpoint/path or missing resource.</td></tr>
+<tr><td>500 Internal Server Error</td><td>Backend threw an exception. The console stack trace contains the real cause.</td></tr>
+<tr><td>database (default) does not exist</td><td>Required Google Cloud database had not been created.</td></tr>
+<tr><td>Maven dependency version missing</td><td>Maven did not know the compatible Google Cloud dependency version.</td></tr>
+<tr><td>Invalid protocol: GET</td><td>Postman method/request was entered incorrectly.</td></tr>
+<tr><td>JavaScript MIME type error</td><td>Browser requested a JS path but received an HTML 404 page instead.</td></tr>
+<tr><td>enquiries.js 404</td><td>The script URL did not match the Live Server/project root.</td></tr>
+<tr><td>favicon.ico 404</td><td>Browser requested an icon that does not exist; normally harmless.</td></tr></table>
+</section>
+
+<section id="terms">
+<h2>20. 📖 Important Terms</h2>
+<table><tr><th>Term</th><th>Simple meaning</th></tr>
+<tr><td>HTML</td><td>Structure of webpage.</td></tr><tr><td>CSS</td><td>Appearance/design.</td></tr>
+<tr><td>JavaScript</td><td>Browser behavior and API communication.</td></tr><tr><td>DOM</td><td>JavaScript's representation of the HTML page.</td></tr>
+<tr><td>API</td><td>Communication interface.</td></tr><tr><td>Endpoint</td><td>Specific API URL.</td></tr>
+<tr><td>JSON</td><td>Structured data transfer format.</td></tr><tr><td>Controller</td><td>HTTP/API layer.</td></tr>
+<tr><td>Service</td><td>Application logic layer.</td></tr><tr><td>Repository</td><td>Database access layer.</td></tr>
+<tr><td>Model</td><td>Java representation of application data.</td></tr><tr><td>Entity</td><td>Database representation of a record.</td></tr>
+<tr><td>Query</td><td>Instructions for finding database data.</td></tr><tr><td>ADC</td><td>Application Default Credentials.</td></tr>
+<tr><td>Maven</td><td>Java build/dependency manager.</td></tr><tr><td>Breakpoint</td><td>Debugger pause point.</td></tr></table>
+</section>
+
+<section id="next">
+<h2>21. 🚀 What To Learn Next</h2>
+<ol>
+<li>Validation of enquiry fields.</li>
+<li>Exception handling and proper error responses.</li>
+<li>HTTP status codes: 200, 201, 400, 404, 500.</li>
+<li>DTOs and request/response design.</li>
+<li>Update and delete APIs.</li>
+<li>Search/filtering.</li>
+<li>Authentication and authorization.</li>
+<li>Postman API testing collections.</li>
+<li>Git workflow.</li>
+<li>Deployment.</li>
+</ol>
+<div class="note ok"><b>Best study exercise:</b> Put breakpoints in Controller → Service → Repository, submit one enquiry, and watch the same object travel through the application. Then do the same with GET in reverse.</div>
+</section>
+
+<section>
+<h2>🎯 One-Minute Revision</h2>
+<pre><code>HTML       = structure
+CSS        = design
+JavaScript = browser logic + API communication
+POST       = send/save data
+GET        = fetch data
+Controller = HTTP entry point
+Service    = application layer
+Repository = database layer
+Model      = data structure
+JSON       = transfer format
+Google Cloud = persistent storage
+Eclipse debugger = watch execution step-by-step</code></pre>
+</section>
+
+<footer>NextInnovize Beginner Code Study Guide — based on the project work completed so far.</footer>
+</main>
+</div>
+</body>
+</html>
