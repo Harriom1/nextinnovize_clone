@@ -1,0 +1,581 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+}
+
+.navbar {
+    width: 100%;
+    height: 80px;
+    position: relative;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 7%;
+
+    background-color: white;
+
+    border-bottom: 3px solid #eeeeee;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    gap: 35px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #222222;
+    padding: 12px 0;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: darkorchid;    
+}
+
+.nav-button {
+    text-decoration: none;
+
+    background-color: #111111;
+    color: white;
+
+    padding: 12px 22px;
+
+    border-radius: 8px;
+}
+
+.nav-button:hover {
+    background-color: #333333;
+}
+/* =========================
+   HERO SECTION
+========================= */
+
+.hero {
+    min-height: calc(100vh - 80px);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 80px 7%;
+
+    background:
+        radial-gradient(
+            circle at 80% 30%,
+            rgba(100, 100, 255, 0.12),
+            transparent 35%
+        ),
+        #ffffff;
+
+    overflow: hidden;
+}
+
+
+/* =========================
+   HERO CONTENT
+========================= */
+
+.hero-content {
+    width: 55%;
+}
+
+.hero-tag {
+    display: inline-block;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    letter-spacing: 2px;
+
+    color: #5555ff;
+
+    margin-bottom: 25px;
+}
+
+
+.hero h1 {
+    font-size: clamp(48px, 6vw, 82px);
+
+    line-height: 1.05;
+
+    font-weight: 700;
+
+    letter-spacing: -3px;
+
+    color: #111111;
+
+    max-width: 850px;
+}
+
+
+.hero h1 span {
+    color: #5555ff;
+}
+
+
+.hero-description {
+    margin-top: 30px;
+
+    max-width: 600px;
+
+    font-size: 18px;
+
+    line-height: 1.7;
+
+    color: #666666;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.hero-buttons {
+    display: flex;
+
+    gap: 15px;
+
+    margin-top: 35px;
+}
+
+
+.primary-button,
+.secondary-button {
+    display: inline-block;
+
+    padding: 15px 25px;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    transition: all 0.3s ease;
+}
+
+
+.primary-button {
+    background: #111111;
+
+    color: white;
+}
+
+
+.primary-button:hover {
+    transform: translateY(-3px);
+
+    background: #5555ff;
+}
+
+
+.secondary-button {
+    border: 1px solid #dddddd;
+
+    color: #222222;
+
+    background: white;
+}
+
+
+.secondary-button:hover {
+    transform: translateY(-3px);
+
+    border-color: #5555ff;
+
+    color: #5555ff;
+}
+
+
+/* =========================
+   HERO VISUAL
+========================= */
+
+.hero-visual {
+    width: 40%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+}
+
+
+.visual-card {
+    width: 360px;
+
+    height: 420px;
+
+    padding: 45px;
+
+    border-radius: 30px;
+
+    background: #111111;
+
+    color: white;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: flex-end;
+
+    position: relative;
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.18);
+
+    transform: rotate(3deg);
+
+    transition: transform 0.4s ease;
+}
+
+
+.visual-card:hover {
+    transform: rotate(0deg) translateY(-10px);
+}
+
+
+.card-icon {
+    position: absolute;
+
+    top: 35px;
+    right: 35px;
+
+    width: 55px;
+    height: 55px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #5555ff;
+
+    font-size: 25px;
+}
+
+
+.visual-card h2 {
+    font-size: 42px;
+
+    line-height: 1;
+
+    margin-bottom: 20px;
+}
+
+
+.visual-card p {
+    color: #aaaaaa;
+
+    font-size: 14px;
+}
+.menu-toggle {
+    display: none;
+    border: none;
+    background: transparent;
+    font-size: 28px;
+    cursor: pointer;
+}
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+
+    /* HAMBURGER BUTTON */
+    .menu-toggle {
+        display: block;
+        border: none;
+        background: transparent;
+        font-size: 28px;
+        cursor: pointer;
+        z-index: 1001;
+    }
+    /* MOBILE NAVIGATION */
+    .nav-links {
+        position: absolute;
+
+        top: 100%;
+        left: 0;
+
+        width: 100%;
+
+        background: white;
+
+        display: flex;
+        flex-direction: column;
+
+        padding: 20px;
+
+        opacity: 0;
+        visibility: hidden;
+
+        transform: translateY(-10px);
+
+        transition:
+            opacity 0.3s ease,
+            transform 0.3s ease,
+            visibility 0.3s ease;
+
+        z-index: 1000;
+    }
+    /* WHEN MENU IS OPEN */
+    .nav-links.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    /* NAVIGATION LINKS */
+    .nav-links a {
+        display: block;
+        padding: 12px 0;
+    }
+    /* NAVBAR */
+    .navbar {
+        width: 100%;
+        height: 70px;
+
+        padding: 0 20px;
+
+        display: flex;
+        justify-content: space-between;
+    }
+    /* LOGO */
+    .logo {
+        font-size: 20px;
+    }
+    /* NAV BUTTON */
+    .nav-button {
+        padding: 9px 14px;
+        font-size: 13px;
+    }
+    /* HERO */
+    .hero {
+        width: 100%;
+        min-height: auto;
+
+        display: flex;
+        flex-direction: column;
+
+        padding: 60px 20px;
+    }
+
+
+    .hero-content {
+        width: 100%;
+    }
+
+
+    .hero-tag {
+        font-size: 10px;
+        letter-spacing: 1.2px;
+
+        line-height: 1.5;
+
+        margin-bottom: 20px;
+    }
+
+
+    .hero h1 {
+        width: 100%;
+
+        font-size: 44px;
+
+        line-height: 1.05;
+
+        letter-spacing: -1.5px;
+
+        word-wrap: break-word;
+    }
+    .hero-description {
+        width: 100%;
+
+        font-size: 16px;
+
+        line-height: 1.6;
+
+        margin-top: 25px;
+    }
+    /* BUTTONS */
+    .hero-buttons {
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 12px;
+
+        margin-top: 30px;
+    }
+    .primary-button,
+    .secondary-button {
+        width: 100%;
+
+        text-align: center;
+    }
+    /* VISUAL CARD */
+    .hero-visual {
+        width: 100%;
+
+        margin-top: 50px;
+
+        display: flex;
+        justify-content: center;
+    }
+    .visual-card {
+        width: 100%;
+        max-width: 350px;
+
+        height: 360px;
+
+        padding: 35px;
+
+        transform: none;
+    }
+    .visual-card h2 {
+        font-size: 36px;
+    }
+}
+/* =========================
+   CONTACT SECTION
+========================= */
+
+.contact-section {
+    padding: 100px 7%;
+    background: #ffffff;
+}
+.contact-container {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 80px;
+}
+.contact-info h1 {
+    font-size: 52px;
+    line-height: 1.1;
+    margin: 20px 0;
+}
+
+.contact-info p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: #666;
+    max-width: 500px;
+}
+
+.section-tag {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #5555ff;
+}
+
+.enquiry-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+
+    padding: 14px 16px;
+
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    outline: none;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #5555ff;
+}
+.submit-button {
+    padding: 15px 25px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #111111;
+    color: white;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background: #5555ff;
+}
+#form-message {
+    font-size: 14px;
+}
+#enquiries-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.enquiry-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.enquiry-card h2 {
+    margin-top: 0;
+}
+
+.enquiry-card p {
+    margin: 8px 0;
+}
