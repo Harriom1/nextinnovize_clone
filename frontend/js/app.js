@@ -1,3 +1,18 @@
+// ===== NAVBAR: transparent at top, solid once scrolled =====
+// window.scrollY = how many pixels the page has been scrolled
+// down from the very top. It's 0 when you're at the top.
+const navbar = document.querySelector(".navbar");
+const SCROLL_THRESHOLD = 50; // pixels — small buffer so it doesn't
+                              // flicker the instant you nudge the page
+
+window.addEventListener("scroll", function () {
+    if (window.scrollY > SCROLL_THRESHOLD) {
+        navbar.classList.add("scrolled");
+    } else {
+        navbar.classList.remove("scrolled");
+    }
+});
+
 // ===== MOBILE HAMBURGER MENU =====
 // The button (#menu-toggle) and the CSS (.nav-links.active) already
 // existed on the page, but nothing was toggling the class on click.
