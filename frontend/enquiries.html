@@ -9,20 +9,51 @@
 
     <title>Customer Enquiries</title>
 
-    <link rel="stylesheet" href="/frontend/css/style.css">
-    <link rel="stylesheet" href="/frontend/css/enquiries.css"">
+    <link rel="stylesheet" href="css/enquiries.css">
 
 </head>
 
 <body>
 
-    <h1>Customer Enquiries</h1>
+    <div class="enquiries-page">
 
-    <div id="enquiries-container">
-        Loading enquiries...
+        <h1>Customer Enquiries</h1>
+
+        <p class="page-description">
+            All customer enquiries received through the website.
+        </p>
+
+        <div class="table-container">
+
+            <table class="enquiries-table">
+
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Company</th>
+                        <th>Service</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+
+                <tbody id="enquiries-body">
+
+                    <tr>
+                        <td colspan="7">Loading enquiries...</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
     </div>
 
-    <script src="/frontend/js/enquiries.js"></script>
+    <script src="js/enquiries.js"></script>
 
 </body>
 

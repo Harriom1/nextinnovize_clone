@@ -21,13 +21,15 @@ public class EnquiryRepository {
     private final Datastore datastore;
 
     public EnquiryRepository() {
-        this.datastore = DatastoreOptions.getDefaultInstance().getService();
+
+        this.datastore = DatastoreOptions.newBuilder()
+                .setProjectId("nextinnovize-backend")
+                .build()
+                .getService();
+
+        System.out.println("PROJECT ID: "
+                + datastore.getOptions().getProjectId());
     }
-
-    // =========================
-    // SAVE ENQUIRY
-    // =========================
-
     public Enquiry save(Enquiry enquiry) {
 
         KeyFactory keyFactory = datastore.newKeyFactory()
@@ -53,10 +55,6 @@ public class EnquiryRepository {
         return enquiry;
     }
 
-
-    // =========================
-    // GET ALL ENQUIRIES
-    // =========================
 
     public List<Enquiry> findAll() {
 

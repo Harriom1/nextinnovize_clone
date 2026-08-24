@@ -1,3 +1,16 @@
+// ===== MOBILE HAMBURGER MENU =====
+// The button (#menu-toggle) and the CSS (.nav-links.active) already
+// existed on the page, but nothing was toggling the class on click.
+const menuToggle = document.getElementById("menu-toggle");
+const navLinks = document.querySelector(".nav-links");
+
+if (menuToggle && navLinks) {
+    menuToggle.addEventListener("click", function () {
+        navLinks.classList.toggle("active");
+    });
+}
+
+// ===== ENQUIRY FORM SUBMISSION =====
 const enquiryForm = document.querySelector(".enquiry-form");
 
 enquiryForm.addEventListener("submit", async function (event) {

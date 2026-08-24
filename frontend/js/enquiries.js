@@ -1,9 +1,14 @@
-const enquiriesContainer =
-    document.getElementById("enquiries-container");
+console.log("ENQUIRIES JS LOADED");
+
+const enquiriesBody = document.getElementById("enquiries-body");
+
+console.log("Table body:", enquiriesBody);
 
 fetch("http://localhost:8080/api/enquiry")
 
     .then(function (response) {
+
+        console.log("Response received:", response);
 
         if (!response.ok) {
             throw new Error(
@@ -19,29 +24,23 @@ fetch("http://localhost:8080/api/enquiry")
 
         console.log("Fetched enquiries:", enquiries);
 
-        enquiriesContainer.innerHTML = "";
+        enquiriesBody.innerHTML = "";
 
-        enquiries.forEach(function (enquiry) {
+        enquiries.forEach(function (enquiry, index) {
 
-            const enquiryCard = document.createElement("div");
+            const row = document.createElement("tr");
 
-            enquiryCard.classList.add("enquiry-card");
-
-            enquiryCard.innerHTML = `
-                <h2>${enquiry.name}</h2>
-
-                <p><strong>Email:</strong> ${enquiry.email}</p>
-
-                <p><strong>Phone:</strong> ${enquiry.phone}</p>
-
-                <p><strong>Company:</strong> ${enquiry.company}</p>
-
-                <p><strong>Service:</strong> ${enquiry.service}</p>
-
-                <p><strong>Message:</strong> ${enquiry.message}</p>
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${enquiry.name}</td>
+                <td>${enquiry.email}</td>
+                <td>${enquiry.phone}</td>
+                <td>${enquiry.company}</td>
+                <td>${enquiry.service}</td>
+                <td>${enquiry.message}</td>
             `;
 
-            enquiriesContainer.appendChild(enquiryCard);
+            enquiriesBody.appendChild(row);
 
         });
 
@@ -54,7 +53,12 @@ fetch("http://localhost:8080/api/enquiry")
             error
         );
 
-        enquiriesContainer.innerHTML =
-            "<p>Unable to load enquiries.</p>";
+        enquiriesBody.innerHTML = `
+            <tr>
+                <td colspan="7">
+                    Unable to load enquiries.
+                </td>
+            </tr>
+        `;
 
     });
