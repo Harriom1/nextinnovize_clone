@@ -16,6 +16,12 @@ public class Enquiry {
     private String service;
     private String message;
 
+    // Stores the exact moment (in milliseconds since Jan 1 1970 —
+    // a standard way computers represent "a point in time" as a
+    // single number) that this enquiry was saved. This is what
+    // lets us sort "newest first" later.
+    private Long createdAt;
+
     public Enquiry() {
     }
 
@@ -84,5 +90,13 @@ public class Enquiry {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Long getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Long createdAt) {
+        this.createdAt = createdAt;
     }
 }
