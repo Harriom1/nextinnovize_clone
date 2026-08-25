@@ -1,92 +1,129 @@
-// ===== NAVBAR: transparent at top, solid once scrolled =====
-// window.scrollY = how many pixels the page has been scrolled
-// down from the very top. It's 0 when you're at the top.
 const navbar = document.querySelector(".navbar");
-const SCROLL_THRESHOLD = 50; // pixels — small buffer so it doesn't
-                              // flicker the instant you nudge the page
-
-window.addEventListener("scroll", function () {
-    if (window.scrollY > SCROLL_THRESHOLD) {
-        navbar.classList.add("scrolled");
-    } else {
-        navbar.classList.remove("scrolled");
-    }
-});
-
-// ===== MOBILE HAMBURGER MENU =====
-// The button (#menu-toggle) and the CSS (.nav-links.active) already
-// existed on the page, but nothing was toggling the class on click.
 const menuToggle = document.getElementById("menu-toggle");
 const navLinks = document.querySelector(".nav-links");
+const enquiryForm = document.querySelector(".enquiry-form");
+const formMessage = document.getElementById("form-message");
+const chatLauncher = document.getElementById("chat-launcher");
+const chatWidget = document.getElementById("chat-widget");
+const chatClose = document.getElementById("chat-close");
+const chatForm = document.querySelector(".chat-input");
+const chatInput = document.getElementById("chat-message");
+const chatBody = document.querySelector(".chat-body");
+
+if (navbar) {
+    window.addEventListener("scroll", function () {
+        navbar.classList.toggle("scrolled", window.scrollY > 50);
+    });
+}
 
 if (menuToggle && navLinks) {
     menuToggle.addEventListener("click", function () {
         navLinks.classList.toggle("active");
     });
+
+    navLinks.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", function () {
+            navLinks.classList.remove("active");
+        });
+    });
 }
 
-// ===== ENQUIRY FORM SUBMISSION =====
-const enquiryForm = document.querySelector(".enquiry-form");
+if (enquiryForm) {
+    enquiryForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
 
-enquiryForm.addEventListener("submit", async function (event) {
+        const enquiryData = {
+            name: document.querySelector("#name").value,
+            email: document.querySelector("#email").value,
+            phone: document.querySelector("#phone").value,
+            company: document.querySelector("#company").value,
+            service: document.querySelector("#service").value,
+            message: document.querySelector("#message").value
+        };
 
-    event.preventDefault();
-
-    const name = document.querySelector("#name").value;
-    const email = document.querySelector("#email").value;
-    const phone = document.querySelector("#phone").value;
-    const company = document.querySelector("#company").value;
-    const service = document.querySelector("#service").value;
-    const message = document.querySelector("#message").value;
-
-    const enquiryData = {
-        name: name,
-        email: email,
-        phone: phone,
-        company: company,
-        service: service,
-        message: message
-    };
-
-    console.log("Enquiry data:", enquiryData);
-
-    console.log(
-        "JSON data:",
-        JSON.stringify(enquiryData, null, 2)
-    );
-
-    try {
-
-        const response = await fetch("http://localhost:8080/api/enquiry", {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify(enquiryData)
-
-        });
-
-        if (!response.ok) {
-            throw new Error("Server returned: " + response.status);
+        if (formMessage) {
+            formMessage.textContent = "Sending your enquiry...";
         }
 
-        const result = await response.json();
+        try {
+            const response = await fetch("http://localhost:8080/api/enquiry", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(enquiryData)
+            });
 
-        console.log("Backend response:", result);
+            if (!response.ok) {
+                throw new Error("Server returned: " + response.status);
+            }
 
-        alert("Enquiry submitted successfully!");
+            await response.json();
+            enquiryForm.reset();
 
-        enquiryForm.reset();
+            if (formMessage) {
+                formMessage.textContent = "Thanks! Your enquiry was submitted successfully.";
+            }
+        } catch (error) {
+            console.error("Error sending enquiry:", error);
 
-    } catch (error) {
+            if (formMessage) {
+                formMessage.textContent = "The form is ready, but the backend is not responding right now.";
+            }
+        }
+    });
+}
 
-        console.error("Error sending enquiry:", error);
-
-        alert("Something went wrong. Please try again.");
-
+function setChatOpen(isOpen) {
+    if (!chatWidget) {
+        return;
     }
 
+    chatWidget.classList.toggle("active", isOpen);
+    chatWidget.setAttribute("aria-hidden", String(!isOpen));
+
+    if (isOpen && chatInput) {
+        chatInput.focus();
+    }
+}
+
+function addChatBubble(text, className) {
+    if (!chatBody || !text.trim()) {
+        return;
+    }
+
+    const bubble = document.createElement("p");
+    bubble.className = className;
+    bubble.textContent = text.trim();
+    chatBody.appendChild(bubble);
+    chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+if (chatLauncher && chatWidget) {
+    chatLauncher.addEventListener("click", function () {
+        setChatOpen(!chatWidget.classList.contains("active"));
+    });
+}
+
+if (chatClose) {
+    chatClose.addEventListener("click", function () {
+        setChatOpen(false);
+    });
+}
+
+document.querySelectorAll("[data-chat-reply]").forEach(function (button) {
+    button.addEventListener("click", function () {
+        const message = button.getAttribute("data-chat-reply");
+        addChatBubble(message, "user-message");
+        addChatBubble("Great. Please share your contact details in the form and the team can follow up.", "bot-message");
+    });
 });
+
+if (chatForm && chatInput) {
+    chatForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        addChatBubble(chatInput.value, "user-message");
+        chatInput.value = "";
+        addChatBubble("Thanks. This chat box is ready for a future live chatbot integration.", "bot-message");
+    });
+}

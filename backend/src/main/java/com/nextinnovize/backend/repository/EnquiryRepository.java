@@ -7,7 +7,6 @@ import com.google.cloud.datastore.Key;
 import com.google.cloud.datastore.KeyFactory;
 import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.QueryResults;
-import com.google.cloud.datastore.StructuredQuery.OrderBy;
 
 import com.nextinnovize.backend.model.Enquiry;
 
@@ -68,16 +67,20 @@ public class EnquiryRepository {
 
         List<Enquiry> enquiries = new ArrayList<>();
 
-        // Create query to get all entities
-        // whose Kind is "Enquiry"
-        // .setOrderBy(OrderBy.desc("createdAt")) tells Datastore:
-        // "sort results by the createdAt field, largest number first."
-        // Since createdAt is milliseconds-since-1970, the largest
-        // number is always the MOST RECENT save — so this gives us
-        // newest-first ordering.
+        // Create query to get all entities whose Kind is "Enquiry".
+        //
+        // IMPORTANT: we deliberately do NOT use .setOrderBy() here.
+        // Datastore has a strict rule — if you order a query by a
+        // property, any entity that doesn't have that property at
+        // all is SILENTLY EXCLUDED from the results (not sorted
+        // last — just left out entirely). Since old enquiries saved
+        // before we added createdAt don't have that field, ordering
+        // at the query level would make them disappear from this
+        // list completely. So instead: fetch everything unordered,
+        // then sort it ourselves in Java below, where we can decide
+        // exactly what happens to records missing the field.
         Query<Entity> query = Query.newEntityQueryBuilder()
                 .setKind("Enquiry")
-                .setOrderBy(OrderBy.desc("createdAt"))
                 .build();
 
         // Run the query
@@ -101,9 +104,9 @@ public class EnquiryRepository {
 
             // Older entities saved before this change won't have this
             // field, so we check with .contains() first to avoid an
-            // error, and leave createdAt as null for those (that's
-            // fine — it just means Datastore will list them last,
-            // since a missing value sorts after all real numbers here).
+            // error when reading it. It's left as null for those —
+            // the sort step further down treats null as "oldest",
+            // so these still appear, just at the bottom of the list.
             if (entity.contains("createdAt")) {
                 enquiry.setCreatedAt(entity.getLong("createdAt"));
             }
@@ -111,6 +114,18 @@ public class EnquiryRepository {
             // Add the enquiry to our list
             enquiries.add(enquiry);
         }
+
+        // Sort the completed list ourselves, newest first.
+        // We compare createdAt values, treating a missing/null value
+        // as 0 (the oldest possible timestamp) — so old enquiries
+        // without this field still show up, just pushed to the bottom
+        // instead of disappearing. This is done here in Java, not in
+        // the Datastore query, precisely to avoid excluding them.
+        enquiries.sort((a, b) -> {
+            long aTime = (a.getCreatedAt() != null) ? a.getCreatedAt() : 0L;
+            long bTime = (b.getCreatedAt() != null) ? b.getCreatedAt() : 0L;
+            return Long.compare(bTime, aTime); // bTime first = descending
+        });
 
         // Return all enquiries
         return enquiries;
